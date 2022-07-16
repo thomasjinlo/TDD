@@ -1,22 +1,25 @@
 import pickle
 
 from enum import Enum
-from typing import Any
+from typing import Any, Union
 
+MaybePiece = Union[int, None]
+Row = list[MaybePiece, MaybePiece, MaybePiece]
+BoardState = list[Row, Row, Row]
 
 class Board:
     class Piece(Enum):
         O = 0
         X = 1
 
-    def __init__(self):
+    def __init__(self) -> None:
         initial_state = [[None, None, None],
                          [None, None, None],
                          [None, None, None]]
         self.states = [pickle.dumps(initial_state)]
 
     @property
-    def state(self):
+    def state(self) -> BoardState:
         return pickle.loads(self.states[-1])
 
     def add_piece(self, position: tuple[int, int], piece: Piece) -> None:
@@ -36,12 +39,12 @@ class Board:
 
         return self.state[x][y] is None
 
-    def has_winning_state(self):
+    def has_winning_state(self) -> bool:
         return (self._has_winning_vertical_state()
                 or self._has_winning_horizontal_state()
                 or self._has_winning_diagonal_state())
 
-    def _has_winning_vertical_state(self):
+    def _has_winning_vertical_state(self) -> bool:
         current_state = self.state
 
         for col in range(3):
@@ -52,7 +55,7 @@ class Board:
 
         return False
 
-    def _has_winning_horizontal_state(self):
+    def _has_winning_horizontal_state(self) -> bool:
         current_state = self.state
 
         for row in range(3):
@@ -63,7 +66,7 @@ class Board:
 
         return False
 
-    def _has_winning_diagonal_state(self):
+    def _has_winning_diagonal_state(self) -> bool:
         current_state = self.state
 
         return ((current_state[0][0]
