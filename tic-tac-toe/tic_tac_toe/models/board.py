@@ -1,11 +1,11 @@
 import pickle
 
 from enum import Enum
-from typing import Any, Union
+from typing import Any, Union, Tuple
 
 MaybePiece = Union[int, None]
-Row = list[MaybePiece, MaybePiece, MaybePiece]
-BoardState = list[Row, Row, Row]
+Row = Tuple[MaybePiece, MaybePiece, MaybePiece]
+BoardState = Tuple[Row, Row, Row]
 
 class Board:
     class Piece(Enum):
@@ -22,19 +22,19 @@ class Board:
     def state(self) -> BoardState:
         return pickle.loads(self.states[-1])
 
-    def add_piece(self, position: tuple[int, int], piece: Piece) -> None:
+    def add_piece(self, position: Tuple[int, int], piece: Piece) -> None:
         x, y = position
         new_state = self.state
         new_state[x][y] = piece
 
         self._update_state(new_state)
 
-    def is_position_valid(self, position: tuple[int, int]) -> bool:
+    def is_position_valid(self, position: Tuple[int, int]) -> bool:
         x, y = position
 
         return x in range(3) and y in range(3)
 
-    def is_position_empty(self, position: tuple[int, int]) -> bool:
+    def is_position_empty(self, position: Tuple[int, int]) -> bool:
         x, y = position
 
         return self.state[x][y] is None
