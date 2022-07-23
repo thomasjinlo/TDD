@@ -78,3 +78,34 @@ def test_has_winning_state_diagonally():
     board.add_piece((1, 1), Board.Piece.O)
     board.add_piece((2, 0), Board.Piece.O)
     assert board.has_winning_state()
+
+
+def test_has_no_cats_game_and_winning_state():
+    board = Board()
+    board.add_piece((0, 0), Board.Piece.O)
+    board.add_piece((0, 1), Board.Piece.O)
+    board.add_piece((1, 2), Board.Piece.O)
+    board.add_piece((2, 0), Board.Piece.O)
+    board.add_piece((2, 2), Board.Piece.O)
+    board.add_piece((1, 0), Board.Piece.X)
+    board.add_piece((1, 1), Board.Piece.X)
+    board.add_piece((2, 1), Board.Piece.X)
+
+    assert board.has_winning_state() is False
+    assert board.has_cats_game() is False
+
+
+def test_has_cats_game():
+    board = Board()
+    board.add_piece((0, 0), Board.Piece.O)
+    board.add_piece((0, 1), Board.Piece.O)
+    board.add_piece((1, 2), Board.Piece.O)
+    board.add_piece((2, 0), Board.Piece.O)
+    board.add_piece((2, 2), Board.Piece.O)
+    board.add_piece((0, 2), Board.Piece.X)
+    board.add_piece((1, 0), Board.Piece.X)
+    board.add_piece((1, 1), Board.Piece.X)
+    board.add_piece((2, 1), Board.Piece.X)
+
+    assert board.has_winning_state() is False
+    assert board.has_cats_game()
